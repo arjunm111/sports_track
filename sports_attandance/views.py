@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Department,Programme,Teacher,Tutor,Item,StudentItem,Hour,PresentDetails,Status
-from .forms import DepartmentForm,ProgrammeForm,TeacherForm,TutorForm,ItemForm,StudentItemForm,HourForm,PresentDetailsForm,StatusForm
+from .models import Department,Programme,Teacher,Tutor,Item,StudentItem,Hour,PresentDetails,Status,Student
+from .forms import DepartmentForm,ProgrammeForm,TeacherForm,TutorForm,ItemForm,StudentItemForm,HourForm,PresentDetailsForm,StatusForm,StudentForm
 from django.http import HttpResponse
 def hour_list(request):
     hours = Hour.objects.all()
@@ -340,5 +340,35 @@ def status_delete(request, status_id):
     status.delete()
     return redirect('status_list')  # Redirect to the list view after deleting
 
+def student_list(request):
+    students = Student.objects.all()  # Get all students
+    return render(request, 'students/student_list.html', {'students': students})
 
+# View to display a single student's details
+def student_detail(request, stud_id):
+    student = get_object_or_404(Student, stud_id=stud_id)
+    return render(request, 'students/student_detail.html', {'student': student})
+
+# View to create a new student
+def student_create(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the new student
+            return redirect('student_list')  # Redirect to the student list
+    else:
+        form = StudentForm()  # Create an empty form
+    return render(request, 'students/student_form.html', {'form': form})
+
+# View to edit an existing student
+def student_edit(request, stud_id):
+    student = get_object_or_404(Student, stud_id=stud_id)
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()  # Save the edited student
+            return redirect('student_list')
+    else:
+        form = StudentForm(instance=student)  # Populate the form with the existing student's data
+    return render(request, 'students/student_form.html', {'form': form})
 

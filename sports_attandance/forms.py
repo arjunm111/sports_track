@@ -1,5 +1,5 @@
 from django import forms
-from .models import Department,Programme,Teacher,Tutor,Item,StudentItem,Hour,PresentDetails,Status
+from .models import Department,Programme,Teacher,Tutor,Item,StudentItem,Hour,PresentDetails,Status,Student
 
 class DepartmentForm(forms.ModelForm):
     class Meta:
@@ -59,7 +59,10 @@ class StatusForm(forms.ModelForm):
         fields = ['status_desc']  # Only status_desc field is needed for the form
 
 
-
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['name', 'reg_num', 'pgm', 'year_adm', 'gender']
 
 
 

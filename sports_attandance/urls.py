@@ -42,5 +42,9 @@ urlpatterns = [
     path('status/create/', views.status_create, name='status_create'),  # Create new status
     path('status/edit/<int:status_id>/', views.status_edit, name='status_edit'),  # Edit status
     path('status/delete/<int:status_id>/', views.status_delete, name='status_delete'),  # Delete status
+    path('student', views.student_list, name='student_list'),  # List all students
+    path('student/create/', views.student_create, name='student_create'),  # Create a new student
+    path('student/edit/<int:stud_id>/', views.student_edit, name='student_edit'),  # Edit a student
+    path('student/details/<int:stud_id>/', views.student_detail, name='student_detail'),  # View student details
 ]
 
