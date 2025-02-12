@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request List</title>
+</head>
+<body>
+    <h1>Requests</h1>
+
+    <ul>
+        {% for request in requests %}
+            <li>
+                <strong>{{ request.request_title }}</strong> ({{ request.status }})
+                <p>{{ request.request_description }}</p>
+                <a href="{% url 'edit_request' request.id %}">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'create_request' %}">Create New Request</a>
+</body>
+</html>

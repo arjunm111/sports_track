@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 class Department(models.Model):
     dept_id = models.AutoField(primary_key=True)
@@ -67,3 +69,29 @@ class PresentDetails(models.Model):
 class Status(models.Model):
     status_id = models.AutoField(primary_key=True)
     status_desc = models.CharField(max_length=255)
+
+class Request(models.Model):
+    PENDING = 'pending'
+    APPROVED = 'approved'
+    REJECTED = 'rejected'
+
+    APPROVAL_STATUS_CHOICES = [
+        (PENDING, 'Pending'),
+        (APPROVED, 'Approved'),
+        (REJECTED, 'Rejected'),
+    ]
+
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)  # Allow null user
+    request_title = models.CharField(max_length=255)
+    request_description = models.TextField()
+    status = models.CharField(
+        max_length=10,
+        choices=APPROVAL_STATUS_CHOICES,
+        default=PENDING
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    approved_by = models.ForeignKey(User, null=True, blank=True, related_name='approved_requests', on_delete=models.SET_NULL)
+    approved_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return self.request_title

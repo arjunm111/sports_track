@@ -1,5 +1,5 @@
 from django import forms
-from .models import Department,Programme,Teacher,Tutor,Item,StudentItem,Hour,PresentDetails,Status,Student
+from .models import Department,Programme,Teacher,Tutor,Item,StudentItem,Hour,PresentDetails,Status,Student,Request
 
 class DepartmentForm(forms.ModelForm):
     class Meta:
@@ -64,5 +64,7 @@ class StudentForm(forms.ModelForm):
         model = Student
         fields = ['name', 'reg_num', 'pgm', 'year_adm', 'gender']
 
-
-
+class RequestForm(forms.ModelForm):
+    class Meta:
+        model = Request
+        fields = ['request_title', 'request_description', 'status'] 

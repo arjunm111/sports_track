@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Department,Programme,Teacher,Tutor,Item,StudentItem,Hour,PresentDetails,Status,Student
-from .forms import DepartmentForm,ProgrammeForm,TeacherForm,TutorForm,ItemForm,StudentItemForm,HourForm,PresentDetailsForm,StatusForm,StudentForm
+from .models import Department,Programme,Teacher,Tutor,Item,StudentItem,Hour,PresentDetails,Status,Student,Request
+from .forms import DepartmentForm,ProgrammeForm,TeacherForm,TutorForm,ItemForm,StudentItemForm,HourForm,PresentDetailsForm,StatusForm,StudentForm,RequestForm
 from django.http import HttpResponse
 def hour_list(request):
     hours = Hour.objects.all()
@@ -126,9 +126,16 @@ def teacher_create(request):
 # Edit an existing teacher
 def teacher_edit(request, teacher_id):
     teacher = get_object_or_404(Teacher, teacher_id=teacher_id)
+    
     if request.method == 'POST':
         form = TeacherForm(request.POST, instance=teacher)
-        if form.is_valid():from django.shortcuts import render, get_object_or_404, redirect
+        if form.is_valid():
+            form.save()  # Save the form if valid
+            return redirect('teacher_list')  # Redirect after saving
+    else:
+        form = TeacherForm(instance=teacher)  # Initialize form with the teacher instance if GET request
+
+    return render(request, 'sports_attandance/teacher_edit.html', {'form': form, 'teacher': teacher})
 
 def teacher_delete(request, teacher_id):
     teacher = get_object_or_404(Teacher, teacher_id=teacher_id)
@@ -372,3 +379,32 @@ def student_edit(request, stud_id):
         form = StudentForm(instance=student)  # Populate the form with the existing student's data
     return render(request, 'students/student_form.html', {'form': form})
 
+def create_request(request):
+    if request.method == 'POST':
+        form = RequestForm(request.POST)
+        if form.is_valid():
+            new_request = form.save(commit=False)
+            new_request.user = request.user  # Attach the current user (this can be null if user is not authenticated)
+            new_request.save()
+            return redirect('request_list')  # After saving, redirect to the list of requests
+    else:
+        form = RequestForm()  # If it's a GET request, show the form
+
+    return render(request, 'requests/create_request.html', {'form': form})
+
+def request_list(request):
+    requests = Request.objects.all()  # Get all requests
+    return render(request, 'requests/request_list.html', {'requests': requests})
+
+def edit_request(request, request_id):
+    request_obj = get_object_or_404(Request, id=request_id)
+
+    if request.method == 'POST':
+        form = RequestForm(request.POST, instance=request_obj)
+        if form.is_valid():
+            form.save()
+            return redirect('request_list')  # Redirect to request list after updating
+    else:
+        form = RequestForm(instance=request_obj)
+
+    return render(request, 'requests/edit_request.html', {'form': form, 'request': request_obj})
