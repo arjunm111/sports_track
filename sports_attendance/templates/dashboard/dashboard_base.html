@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HOD Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <button class="toggle-btn"><i class="fas fa-bars"></i></button>
+            <div class="sidebar-logo">
+                <a href="#">Teacher Dashboard</a>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="{% url 'index_teacher' %}" class="sidebar-link"><i class="fas fa-home"></i><span>Home</span></a></li>
+               
+                <li><a href="{% url 'course_list_teacher' %}" class="sidebar-link"><i class="fas fa-book"></i><span>Courses</span></a></li>
+                <li><a href="{% url 'teacher_attendance_list' %}" class="sidebar-link"><i class="fas fa-calendar-check"></i><span>Attendance Taken</span></a></li>
+                <!-- Logout Button Inside Sidebar Content -->
+                <li>
+                    <a href="{% url 'logout' %}" class="sidebar-link logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+            
+        </nav>
+        
+        <div class="main">
+            {% if messages %}
+                <div class="alert alert-warning">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bohttp://127.0.0.1:8000/

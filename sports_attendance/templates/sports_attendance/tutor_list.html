@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutors List</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            font-weight: 600;
+        }
+
+        td {
+            color: #333;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Button Styling for actions */
+        a {
+            text-decoration: none;
+            color: white;
+            background-color: #3498db;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .action-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Add New Tutor Button Styling */
+        .add-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1abc9c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 20px;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .add-btn:hover {
+            background-color: #16a085;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Table */
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .add-btn {
+                width: 100%;
+                text-align: center;
+                padding: 15px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Tutors List</h1>
+
+    <!-- Add New Tutor Button -->
+    {% comment %} <a href="{% url 'tutor_add' %}" class="add-btn">Add New Tutor</a> {% endcomment %}
+
+    <!-- Tutors Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Teacher</th>
+                <th>Programme</th>
+                <th>Year of Admission</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tutor in tutors %}
+                <tr>
+                    <td>{{ tutor.tutor_id }}</td>
+                    <td>{{ tutor.teacher.teacher_name }}</td>
+                    <td>{{ tutor.programme.pgm_name }}</td>
+                    <td>{{ tutor.year_adm }}</td>
+                    <td class="action-links">
+                        {% comment %} <a href="{% url 'tutor_edit' tutor.tutor_id %}">Edit</a> {% endcomment %}
+                      
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
